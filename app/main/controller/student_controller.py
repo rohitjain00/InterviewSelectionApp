@@ -13,14 +13,14 @@ class StudnetList(Resource):
     @api.doc('list_of_registered_student')
     @api.marshal_list_with(_student, envelope='data')
     def get(self):
-        """List all registered users"""
+        """List all registered students"""
         return get_all_students()
 
     @api.response(201, 'Student successfully created.')
     @api.doc('create a new student')
     @api.expect(_student, validate=True)
     def post(self):
-        """Creates a new User """
+        """Creates a new Student """
         data = request.json
         return add_new_student(data=data)
 
