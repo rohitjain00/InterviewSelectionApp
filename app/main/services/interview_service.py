@@ -30,6 +30,8 @@ def update_interview(data):
   if not verify_date(data):
     return throw_error("Start time cannot be greater than end time"), 401
   students = get_students_from_array(data['students'])
+  if len(students) < 2:
+    return throw_error("Less than 2 participants."), 401
   if not students:
     return throw_error("Invalid Student Ids"), 401
   interview = Interview.query.filter_by(id=data['id']).first()
