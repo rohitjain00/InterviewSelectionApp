@@ -10,7 +10,6 @@ import {
 import './index.css';
 import { getStudents, StudentInterface, Students } from './service';
 import { server_url } from '../config';
-import { toast } from 'react-toastify';
 
 const Student = () => {
   const [name, setName] = React.useState<string>('');
