@@ -28,6 +28,14 @@ def get_students_from_array(data):
     students.append(student)
   return students
 
+def available_student(students, start_time, end_time, exclude=None):
+  for student in students:
+    for interview in student.interviews:
+      if interview.id is exclude:
+        continue
+      if interview.start_time <= end_time and interview.end_time >= start_time:
+        return False
+  return True
 
 def save_changes(data):
     db.session.add(data)
