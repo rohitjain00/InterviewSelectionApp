@@ -33,7 +33,7 @@ def update_interview(data):
   if not students:
     return throw_error("Invalid Student Ids"), 401
   interview = Interview.query.filter_by(id=data['id']).first()
-  if not available_student(students, get_date(data['start_time']), get_date(data['end_time']), interview.id):
+  if not available_student(students, get_date(data['start_time']), get_date(data['end_time']), exclude=interview.id):
     return throw_error("Students are not available"), 401
   interview.name = data['name']
   interview.start_time = get_date(data['start_time'])
