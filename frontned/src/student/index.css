@@ -1,8 +1,12 @@
 .parent {
   display: flex;
   margin: 20px;
+  padding: 20px;
+  flex-direction: column;
+  height: 30vh;
+  overflow-y: scroll;
 }
 .add-student {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }

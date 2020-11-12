@@ -7,39 +7,45 @@ import {
   ListItem,
   ListItemText,
 } from '@material-ui/core';
-import { server_url } from '../config';
 import './index.css';
-
-export interface StudentInterface {
-  id: number;
-  name: string;
-}
+import { getStudents, StudentInterface, Students } from './service';
+import { server_url } from '../config';
+import { toast } from 'react-toastify';
 
 const Student = () => {
   const [name, setName] = React.useState<string>('');
-  const [students, setStudents] = React.useState<StudentInterface[] | null>([
-    { id: 1, name: 'Test 1' },
-    { id: 2, name: 'Test 2' },
-    { id: 3, name: 'Test 3' },
-  ]);
+  const [students, setStudents] = React.useState<StudentInterface[]>([]);
 
-  // React.useEffect(() => {
-  //   // fetch(server_url + '/student/')
-  //   //   .then((response) => response.json())
-  //   //   .then((response: { data: Student[] }) => {
-  //   //     setStudents(response.data);
-  //   //   });
+  React.useEffect(() => {
+    populateStudents();
+  }, []);
 
-  // }, [name]);
-
+  const populateStudents = async () => {
+    getStudents().then((response: Students) => {
+      setStudents(response.data);
+    });
+  };
   const onChangeName = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     setName(event.target.value);
   };
 
-  const addNewStudent = () => {
-    console.log('add new ');
+  const addNewStudent = async () => {
+    if (name === '') {
+      return;
+    }
+    await fetch(server_url + '/student/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: -1,
+        name: name,
+      }),
+    }).then((res) => console.log(res));
+    await populateStudents();
   };
 
   return (
@@ -52,15 +58,13 @@ const Student = () => {
       </Paper>
       <Paper elevation={3} variant="outlined" square>
         <List dense={true}>
-          {students !== null
-            ? students.map((item: StudentInterface) => {
-                return (
-                  <ListItem key={item.id}>
-                    <ListItemText primary={item.id + ' ' + item.name} />
-                  </ListItem>
-                );
-              })
-            : null}
+          {students.map((item: StudentInterface) => {
+            return (
+              <ListItem key={item.id}>
+                <ListItemText primary={item.id + ' ' + item.name} />
+              </ListItem>
+            );
+          })}
         </List>
       </Paper>
     </div>

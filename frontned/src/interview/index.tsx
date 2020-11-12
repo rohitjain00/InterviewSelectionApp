@@ -1,81 +1,47 @@
 import React from 'react';
-import {
-  TextField,
-  Button,
-  Paper,
-  List,
-  ListItem,
-  ListItemText,
-} from '@material-ui/core';
 import { server_url } from '../config';
-import './index.css';
-import { StudentInterface } from '../student/index';
+import { StudentInterface, getStudents, Students } from '../student/service';
+import { EditInterview } from './editInterview';
 
 export interface InterviewInterface {
   id: number;
   name: string;
-  startTime: string;
-  endTime: string;
+  start_time: string;
+  end_time: string;
   students: StudentInterface[];
 }
 
 const Student = () => {
-  const [name, setName] = React.useState<string>('');
-  const [interviews, setStudents] = React.useState<InterviewInterface[] | null>(
-    [
-      {
-        id: 1,
-        name: 'Test 1',
-        startTime: '14-11-11T14:11',
-        endTime: '15-11-11T14:11',
-        students: [
-          { id: 1, name: 'Student 1' },
-          { id: 2, name: 'Student 2' },
-        ],
-      },
-    ]
-  );
+  const [allStudents, setAllStudents] = React.useState<StudentInterface[]>([]);
+  const [interviews, setInterviews] = React.useState<InterviewInterface[]>([]);
+  React.useEffect(() => {
+    populateStudents();
+    fetch(server_url + '/interview/')
+      .then((response) => response.json())
+      .then((response: { data: InterviewInterface[] }) => {
+        setInterviews(response.data);
+      });
+  }, []);
 
-  // React.useEffect(() => {
-  //   // fetch(server_url + '/student/')
-  //   //   .then((response) => response.json())
-  //   //   .then((response: { data: Student[] }) => {
-  //   //     setStudents(response.data);
-  //   //   });
-
-  // }, [name]);
-
-  const onChangeName = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    setName(event.target.value);
-  };
-
-  const addNewStudent = () => {
-    console.log('add new ');
+  const populateStudents = async () => {
+    getStudents().then((response: Students) => {
+      setAllStudents(response.data);
+    });
   };
 
   return (
-    <div className="parent">
-      <Paper elevation={3} variant="outlined" square className="add-student">
-        <TextField label="Name" onChange={onChangeName} value={name} />
-        <Button variant="contained" color="primary" onClick={addNewStudent}>
-          Add New Student
-        </Button>
-      </Paper>
-      <Paper elevation={3} variant="outlined" square>
-        <List dense={true}>
-          {students !== null
-            ? students.map((item: StudentInterface) => {
-                return (
-                  <ListItem key={item.id}>
-                    <ListItemText primary={item.id + ' ' + item.name} />
-                  </ListItem>
-                );
-              })
-            : null}
-        </List>
-      </Paper>
+    <div>
+      <EditInterview students={allStudents} interview={null} key={1} />
+
+      {interviews.map((interview) => {
+        return (
+          <EditInterview
+            students={allStudents}
+            interview={interview}
+            key={interview.id}
+          />
+        );
+      })}
     </div>
   );
 };
