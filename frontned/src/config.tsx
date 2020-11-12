@@ -1,1 +1,1 @@
-export const server_url = 'http://127.0.0.1:5000';
+export const server_url = 'https://interview-select-api.herokuapp.com';
