@@ -1,0 +1,8 @@
+.parent {
+  display: flex;
+  margin: 20px;
+}
+.add-student {
+  display: flex;
+  flex-direction: row;
+}
