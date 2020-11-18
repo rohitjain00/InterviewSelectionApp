@@ -4,6 +4,7 @@ import datetime
 from app.main import db
 from app.main.model.interview import Interview
 from app.main.services.student_service import get_students_from_array, available_student
+from app.main.services.email_service import send_email
 
 def add_new_interview(data):
   if not verify_date(data):
@@ -17,6 +18,7 @@ def add_new_interview(data):
     return throw_error("Students are not available"), 401
   new_interview = Interview(name=data['name'], start_time=get_date(data['start_time']), end_time=get_date(data['end_time']), students=students)
   save_changes(new_interview)
+  send_email(new_interview, "rohitjain18005@gmail.com")
   response_object = {
       'status': 'success',
       'message': 'Successfully Created.'
