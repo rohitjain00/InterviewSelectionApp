@@ -1,5 +1,5 @@
 from flask import request
-from flask_restplus import Resource
+from flask_restx import Resource
 
 from ..util.dto import StudentDto
 from ..services.student_service import add_new_student, get_all_students

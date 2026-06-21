@@ -20,3 +20,11 @@
   yarn run
   ```
   This will start the dev server to localhost:3000
+## Running with Docker
+
+This project is fully Dockerized! To run the application locally without dealing with system dependencies, simply ensure you have Docker and Docker Compose installed and run:
+
+`ash
+docker-compose up --build
+`
+This will automatically build the containers, install all necessary dependencies, and spin up the environment.

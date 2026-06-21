@@ -1,6 +1,6 @@
 # app/__init__.py
 
-from flask_restplus import Api
+from flask_restx import Api
 from flask import Blueprint
 
 from .main.controller.student_controller import api as student_ns

@@ -1,5 +1,5 @@
 from flask import request
-from flask_restplus import Resource
+from flask_restx import Resource
 
 from ..util.dto import InterviewDto
 from ..services.interview_service import add_new_interview, get_all_interviews, update_interview
