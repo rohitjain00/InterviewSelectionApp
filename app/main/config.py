@@ -2,8 +2,12 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+_SECRET_KEY = os.getenv('SECRET_KEY')
+if _SECRET_KEY is None:
+    raise RuntimeError('SECRET_KEY environment variable is required')
+
 class Config:
-    SECRET_KEY = os.getenv('SECRET_KEY', 'my_precious_secret_key')
+    SECRET_KEY = _SECRET_KEY
     DEBUG = False
 
 
